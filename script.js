@@ -29,13 +29,19 @@ function addDataForm(index, student) {
     row.appendChild(cell)
 
     cell = document.createElement('td')
-    console.log(student.name)
-
     cell.innerHTML = student.name
     row.appendChild(cell)
+
     cell = document.createElement('td')
-    cell.innerHTML = student.username
-    row.appendChild(cell)
+    //cell.innerHTML = student.username
+    let someDiv = document.createElement('div')
+    cell.append(someDiv)
+    let img = document.createElement('img')
+    someDiv.append(img)
+    img.setAttribute('src', student.imageLink)
+    img.style.width = '150px'
+    row.appendChild(someDiv)
+
     cell = document.createElement('td')
     cell.innerHTML = student.gender
     row.appendChild(cell)
@@ -51,6 +57,22 @@ function addStudentData(students) {
     }
 }
 
+/*
 window.addEventListener('load', function() {
     addStudentData(students)
 })
+*/
+
+window.addEventListener('load', onLoad)
+
+function onLoad() {
+    fetch('./asset/students2.json').then(response => {
+        return response.json()
+    }) 
+    .then(data => {
+        let student = data
+        console.log(data)
+        addStudentData(student)
+    })
+
+}
