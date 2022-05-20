@@ -1,14 +1,25 @@
+let students = []
 let student = {} 
 student.name = 'คุณลุง'
 student.username = 'a@b.com'
 student.gender = 'ชาย'
+students.push(student)
+
+let student2 = {
+    name : 'คุณป้า',
+    username : 'b@a.com',
+    gender : 'หญิง' 
+}
+students.push(student2)
 
 //document.getElementById('output').innerText = student.name
 
-function addStudentData(student) {
-    addDataForm(student, 'ชื่อ', 'name')
-    addDataForm(student, 'รหัส', 'username')
-    addDataForm(student, 'เพศ', 'gender')
+function addStudentData(students) {
+    for (let stu of students) {
+        addDataForm(stu, 'ชื่อ', 'name')
+        addDataForm(stu, 'รหัส', 'username')
+        addDataForm(stu, 'เพศ', 'gender')
+    }
 }
 
 function addDataForm(student, topic, needValue) {
@@ -31,5 +42,5 @@ function addDataForm(student, topic, needValue) {
 }
 
 window.addEventListener('load', function() {
-    addStudentData(student)
+    addStudentData(students)
 })
