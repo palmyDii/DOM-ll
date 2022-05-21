@@ -29,7 +29,7 @@ function addDataForm(index, student) {
     row.appendChild(cell)
 
     cell = document.createElement('td')
-    cell.innerHTML = student.name
+    cell.innerHTML = `${student.name} ${student.surnamr}`
     row.appendChild(cell)
 
     cell = document.createElement('td')
@@ -38,12 +38,13 @@ function addDataForm(index, student) {
     cell.append(someDiv)
     let img = document.createElement('img')
     someDiv.append(img)
-    img.setAttribute('src', student.imageLink)
-    img.style.width = '150px'
+    img.setAttribute('src', student.image)
+    img.style.height = '200px'
+    img.classList.add('img-thumbnail')
     row.appendChild(someDiv)
 
     cell = document.createElement('td')
-    cell.innerHTML = student.gender
+    cell.innerHTML = student.description
     row.appendChild(cell)
 
     tableBody.appendChild(row)
@@ -57,16 +58,10 @@ function addStudentData(students) {
     }
 }
 
-/*
-window.addEventListener('load', function() {
-    addStudentData(students)
-})
-*/
-
 window.addEventListener('load', onLoad)
 
 function onLoad() {
-    fetch('./asset/students2.json').then(response => {
+    fetch('https://dv-student-backend-2019.appspot.com/students').then(response => {
         return response.json()
     }) 
     .then(data => {
