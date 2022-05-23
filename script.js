@@ -1,4 +1,4 @@
-let student = {} 
+/*let student = {} 
 student.name = 'คุณลุง'
 student.username = 'a@b.com'
 student.gender = 'ชาย'
@@ -18,7 +18,7 @@ let students = [
         gender : 'หญิง'  
     }
     
-]
+]*/
 
 function addDataForm(index, student) {
     const tableBody = document.getElementById('tableBody')
@@ -72,8 +72,6 @@ function addStudentData(student){
     
 }
 
-//window.addEventListener('load', onLoad)
-
 document.getElementById('searchButton').addEventListener('click', () => {
     let id = document.getElementById('inputText').value
     console.log(id)
@@ -87,6 +85,17 @@ document.getElementById('searchButton').addEventListener('click', () => {
         //addDataForm(`${id}`, student)
     })
 })
+
+function onAddStudentClick() {
+    let student = {}
+    student.name = document.getElementById('nameInput').value
+    student.surname = document.getElementById('surnameInput').value
+    student.studentId = document.getElementById('studentIdInput').value
+    student.gpa = document.getElementById('gpaInput').value
+    student.image = document.getElementById('imageLinkInput').value
+    addStudentToDB(student)
+}
+document.getElementById('addButton').addEventListener('click', onAddStudentClick)
 
 function addStudentToDB(student) {
     fetch('https://dv-student-backend-2019.appspot.com/students', {
@@ -102,6 +111,22 @@ function addStudentToDB(student) {
     })
 }
 
+function deleteStudent(id) {
+    fetch(`https://dv-student-backend-2019.appspot.com/student/${id}`, {
+        method: 'DELETE'
+    }).then(response => {
+        if(response.ok) {
+            return response.json()
+        } else {
+            throw Error(response.statusText)
+        }
+    }).then(data => {
+        alert(`student name ${data.name} is now delete`)
+    }).catch(error => {
+        alert('your input student id is not in the database')
+    })
+}
+
 
 function onLoad() {
     let student = {
@@ -109,7 +134,9 @@ function onLoad() {
         surname: 'Satthamnuwong',
         studentId: "642110316",
         gpa: 4.99,
-        image: "https://poptonic.com/wp-content/uploads/2021/10/how-to-train-your-dragon-toothless-feat-1536x878.png"
+        image: 'https://poptonic.com/wp-content/uploads/2021/10/how-to-train-your-dragon-toothless-feat-1536x878.png'
     }
     addStudentToDB(student)
 }
+
+//window.addEventListener('load', onLoad)
