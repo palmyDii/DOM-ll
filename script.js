@@ -41,6 +41,10 @@ function addDataForm(index, student) {  //student table
     cell.appendChild(button)
     row.appendChild(cell)
 
+    row.addEventListener('click', ()=>{
+        showStudentBlock(student)
+    })
+
     tableBody.appendChild(row)
 }
 function addStudentList(students) { //add student array to student table
@@ -128,15 +132,43 @@ function onAddStudentClick() { //click to post
 }
 document.getElementById('addButton').addEventListener('click', onAddStudentClick)
 
-const singleStudentResult = document.getElementById('')
-const listStudentResult = document.getElementById('')
-const addUserdetail = document.getElementById('')
 
+const singleStudentResult = document.getElementById('sinigle_student_result')
+const listStudentResult = document.getElementById('output')
+const addUserDetail = document.getElementById('addUserDetail')
+
+function hideAll() {
+    singleStudentResult.style.display = 'none'
+    listStudentResult.style.display = 'none'
+    addUserDetail.style.display = 'none'
+}
+
+document.getElementById('allStudentMenu').addEventListener('click', (event) => {
+    hideAll()
+    listStudentResult.style.display = 'block'
+    showAllStudents()
+})
+document.getElementById('serachMenu').addEventListener('click', (event) => {
+    hideAll()
+    singleStudentResult.style.display = 'block'
+})
+document.getElementById('addStudentMenu').addEventListener('click', (event) => {
+    hideAll()
+    addUserDetail.style.display = 'block'
+})
+
+function showStudentBlock(student) {
+    //alert(student.name)
+    hideAll()
+    singleStudentResult.style.display = 'block'
+    addStudentData(student)
+}
 
 
 
 function onLoad() {
-    showAllStudents()
+    //showAllStudents()
+    hideAll()
 }
 
 window.addEventListener('load', onLoad)
