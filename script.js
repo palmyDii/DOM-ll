@@ -51,23 +51,65 @@ function addDataForm(index, student) {
 }
 
 
-function addStudentData(students) {
+/*function addStudentData(students) {
     let count = 1
     for (let stu of students) {
         addDataForm(count++, stu)
     }
+}*/
+
+function addStudentData(student){
+    let idElem = document.getElementById('id')
+    idElem.innerHTML = student.id
+    let studentIdElem = document.getElementById('studentId')
+    studentIdElem.innerHTML = student.studentId
+    let nameElem = document.getElementById('name')
+    nameElem.innerHTML = `${student.name} ${student.surname}`
+    let gpaElem = document.getElementById('gpa')
+    gpaElem.innerHTML = student.gpa
+    let profileElem = document.getElementById('image')
+    profileElem.setAttribute('src', student.image)
+    
 }
 
-window.addEventListener('load', onLoad)
+//window.addEventListener('load', onLoad)
 
-function onLoad() {
-    fetch('https://dv-student-backend-2019.appspot.com/students').then(response => {
+document.getElementById('searchButton').addEventListener('click', () => {
+    let id = document.getElementById('inputText').value
+    console.log(id)
+    fetch(`https://dv-student-backend-2019.appspot.com/student/${id}`)
+    .then(response => {
         return response.json()
     }) 
-    .then(data => {
-        let student = data
-        console.log(data)
+    .then(student => {
+        console.log(student)
         addStudentData(student)
+        //addDataForm(`${id}`, student)
     })
+})
 
+function addStudentToDB(student) {
+    fetch('https://dv-student-backend-2019.appspot.com/students', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(student)
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+        console.log('success', data)
+    })
+}
+
+
+function onLoad() {
+    let student = {
+        name: 'Nicha', 
+        surname: 'Satthamnuwong',
+        studentId: "642110316",
+        gpa: 4.99,
+        image: "https://poptonic.com/wp-content/uploads/2021/10/how-to-train-your-dragon-toothless-feat-1536x878.png"
+    }
+    addStudentToDB(student)
 }
