@@ -1,26 +1,4 @@
-/*let student = {} 
-student.name = 'คุณลุง'
-student.username = 'a@b.com'
-student.gender = 'ชาย'
-
-let student2 = {
-    name : 'คุณป้า',
-    username : 'b@a.com',
-    gender : 'หญิง' 
-}
-
-let students = [
-    student,
-    student2,
-    {
-        name : 'คุณน้า',
-        username : 'b@c.com',
-        gender : 'หญิง'  
-    }
-    
-]*/
-
-function addDataForm(index, student) {
+function addDataForm(index, student) {  //student table
     const tableBody = document.getElementById('tableBody')
     let row = document.createElement('tr')
     let cell = document.createElement('th')
@@ -29,7 +7,7 @@ function addDataForm(index, student) {
     row.appendChild(cell)
 
     cell = document.createElement('td')
-    cell.innerHTML = `${student.name} ${student.surnamr}`
+    cell.innerHTML = `${student.name} ${student.surname}`
     row.appendChild(cell)
 
     cell = document.createElement('td')
@@ -47,18 +25,34 @@ function addDataForm(index, student) {
     cell.innerHTML = student.description
     row.appendChild(cell)
 
+    cell = document.createElement('td')
+    let button = document.createElement('button')
+    button.classList.add('btn')
+    button.classList.add('btn-danger')
+    button.setAttribute('type', 'button')
+    button.innerText = 'delete'
+    button.addEventListener('click', ()=>{deleteStudent(student.id)})
+    cell.appendChild(button)
+    row.appendChild(cell)
+
     tableBody.appendChild(row)
 }
-
-
-/*function addStudentData(students) {
+function addStudentList(students) { //add student array to student table
     let count = 1
     for (let stu of students) {
         addDataForm(count++, stu)
     }
-}*/
+}
+function showAllStudents() { //show all on table
+    fetch('https://dv-student-backend-2019.appspot.com/students')
+    .then((response) => {
+        return response.json()
+    }).then(data => {
+        addStudentList(data)
+    })
+}
 
-function addStudentData(student){
+function addStudentData(student){ //show 1 student
     let idElem = document.getElementById('id')
     idElem.innerHTML = student.id
     let studentIdElem = document.getElementById('studentId')
@@ -69,10 +63,9 @@ function addStudentData(student){
     gpaElem.innerHTML = student.gpa
     let profileElem = document.getElementById('image')
     profileElem.setAttribute('src', student.image)
-    
 }
 
-document.getElementById('searchButton').addEventListener('click', () => {
+document.getElementById('searchButton').addEventListener('click', () => { //search
     let id = document.getElementById('inputText').value
     console.log(id)
     fetch(`https://dv-student-backend-2019.appspot.com/student/${id}`)
@@ -82,22 +75,10 @@ document.getElementById('searchButton').addEventListener('click', () => {
     .then(student => {
         console.log(student)
         addStudentData(student)
-        //addDataForm(`${id}`, student)
     })
 })
 
-function onAddStudentClick() {
-    let student = {}
-    student.name = document.getElementById('nameInput').value
-    student.surname = document.getElementById('surnameInput').value
-    student.studentId = document.getElementById('studentIdInput').value
-    student.gpa = document.getElementById('gpaInput').value
-    student.image = document.getElementById('imageLinkInput').value
-    addStudentToDB(student)
-}
-document.getElementById('addButton').addEventListener('click', onAddStudentClick)
-
-function addStudentToDB(student) {
+function addStudentToDB(student) { //post function
     fetch('https://dv-student-backend-2019.appspot.com/students', {
         method: 'POST',
         headers: {
@@ -108,10 +89,10 @@ function addStudentToDB(student) {
         return response.json()
     }).then(data => {
         console.log('success', data)
+        showAllStudents()
     })
 }
-
-function deleteStudent(id) {
+function deleteStudent(id) { //delete function
     fetch(`https://dv-student-backend-2019.appspot.com/student/${id}`, {
         method: 'DELETE'
     }).then(response => {
@@ -127,16 +108,23 @@ function deleteStudent(id) {
     })
 }
 
-
-function onLoad() {
-    let student = {
-        name: 'Nicha', 
-        surname: 'Satthamnuwong',
-        studentId: "642110316",
-        gpa: 4.99,
-        image: 'https://poptonic.com/wp-content/uploads/2021/10/how-to-train-your-dragon-toothless-feat-1536x878.png'
-    }
+function onAddStudentClick() { //click to post
+    let student = {}
+    student.name = document.getElementById('nameInput').value
+    student.surname = document.getElementById('surnameInput').value
+    student.studentId = document.getElementById('studentIdInput').value
+    student.gpa = document.getElementById('gpaInput').value
+    student.image = document.getElementById('imageLinkInput').value
     addStudentToDB(student)
 }
+document.getElementById('addButton').addEventListener('click', onAddStudentClick)
 
-//window.addEventListener('load', onLoad)
+
+
+
+
+function onLoad() {
+    showAllStudents()
+}
+
+window.addEventListener('load', onLoad)
