@@ -3,6 +3,7 @@ function addDataForm(index, student) {  //student table
     let row = document.createElement('tr')
     let cell = document.createElement('th')
     cell.setAttribute('scope', 'row')
+
     cell.innerHTML = index
     row.appendChild(cell)
 
@@ -31,7 +32,12 @@ function addDataForm(index, student) {  //student table
     button.classList.add('btn-danger')
     button.setAttribute('type', 'button')
     button.innerText = 'delete'
-    button.addEventListener('click', ()=>{deleteStudent(student.id)})
+    button.addEventListener('click', ()=>{
+        let cf = confirm(`Delete student name ${student.name} ?`)
+        if(cf) {
+            deleteStudent(student.id)
+        }
+    })
     cell.appendChild(button)
     row.appendChild(cell)
 
@@ -39,6 +45,8 @@ function addDataForm(index, student) {  //student table
 }
 function addStudentList(students) { //add student array to student table
     let count = 1
+    const tableBody = document.getElementById('tableBody')
+    tableBody.innerHTML = '' //ลบข้อมูลเก่าที่showออกก่อน
     for (let stu of students) {
         addDataForm(count++, stu)
     }
@@ -103,6 +111,7 @@ function deleteStudent(id) { //delete function
         }
     }).then(data => {
         alert(`student name ${data.name} is now delete`)
+        showAllStudents()
     }).catch(error => {
         alert('your input student id is not in the database')
     })
@@ -119,6 +128,9 @@ function onAddStudentClick() { //click to post
 }
 document.getElementById('addButton').addEventListener('click', onAddStudentClick)
 
+const singleStudentResult = document.getElementById('')
+const listStudentResult = document.getElementById('')
+const addUserdetail = document.getElementById('')
 
 
 
